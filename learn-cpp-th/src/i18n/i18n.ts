@@ -3,19 +3,22 @@ import { initReactI18next } from "react-i18next";
 import { translations } from "./resources";
 import type { SupportedLocale } from "@/lib/locale";
 
-const resources: Resource = Object.entries(translations).reduce(
+type NamespaceMap = Record<string, Record<string, unknown>>;
+type ResourceMap = Record<string, NamespaceMap>;
+
+const resources: Resource = Object.entries(translations).reduce<ResourceMap>(
   (acc, [locale, namespaces]) => {
-    acc[locale] = Object.entries(namespaces).reduce(
+    acc[locale] = Object.entries(namespaces).reduce<NamespaceMap>(
       (nsAcc, [namespace, value]) => {
         nsAcc[namespace] = { ...value };
         return nsAcc;
       },
-      {} as Record<string, any>,
+      {},
     );
     return acc;
   },
-  {} as Resource,
-);
+  {},
+) as Resource;
 
 const DEFAULT_NAMESPACE = "common";
 
