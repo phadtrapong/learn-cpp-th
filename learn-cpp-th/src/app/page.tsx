@@ -2,7 +2,7 @@
 
 import { useTranslation } from "react-i18next";
 import { useLanguage } from "@/providers/language-provider";
-import { CppEditor } from "@/components/editor/cpp-editor";
+import { RunnerWorkbench } from "@/components/workbench/runner-workbench";
 
 export default function Home() {
   const { t } = useTranslation();
@@ -46,7 +46,7 @@ export default function Home() {
             {t("common.editorDescription")}
           </p>
         </div>
-        <CppEditor />
+        <RunnerWorkbench />
       </section>
 
       <section className="col-span-full grid gap-6 rounded-[32px] border border-slate-200 bg-white/80 p-8 shadow-sm shadow-slate-200/60 md:grid-cols-2">

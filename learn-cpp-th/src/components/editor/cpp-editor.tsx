@@ -1,9 +1,8 @@
 "use client";
 
 import Editor, { type EditorProps } from "@monaco-editor/react";
-import { useEffect, useState } from "react";
 
-const DEFAULT_SNIPPET = `#include <iostream>
+export const DEFAULT_SNIPPET = `#include <iostream>
 
 int main() {
   std::cout << "Hello, สวัสดี C++!" << std::endl;
@@ -11,18 +10,20 @@ int main() {
 }`;
 
 type CppEditorProps = {
-  initialValue?: string;
+  value?: string;
+  onChange?: (value: string) => void;
   height?: EditorProps["height"];
 };
 
-export function CppEditor({ initialValue, height = 360 }: CppEditorProps) {
-  const [value, setValue] = useState(initialValue ?? DEFAULT_SNIPPET);
-
-  useEffect(() => {
-    if (initialValue) {
-      setValue(initialValue);
-    }
-  }, [initialValue]);
+export function CppEditor({
+  value,
+  onChange,
+  height = 360,
+}: CppEditorProps) {
+  const handleChange = (next?: string) => {
+    if (!onChange) return;
+    onChange(next ?? DEFAULT_SNIPPET);
+  };
 
   return (
     <div className="rounded-3xl border border-slate-200 bg-white/95 p-4 shadow-lg shadow-slate-200/70">
@@ -39,8 +40,8 @@ export function CppEditor({ initialValue, height = 360 }: CppEditorProps) {
           padding: { top: 18 },
           scrollBeyondLastLine: false,
         }}
-        value={value}
-        onChange={(next) => setValue(next ?? DEFAULT_SNIPPET)}
+        value={value ?? DEFAULT_SNIPPET}
+        onChange={handleChange}
       />
     </div>
   );
